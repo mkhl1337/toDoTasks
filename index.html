@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo-List</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        color: white;
+        padding: 30px 20px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2.2em;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .header p {
+        opacity: 0.9;
+        font-size: 1.1em;
+      }
+
+      .content {
+        padding: 30px;
+      }
+
+      .form-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+      }
+
+      #tache {
+        flex: 1;
+        padding: 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      #tache:focus {
+        outline: none;
+        border-color: #ff6b6b;
+        box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+      }
+
+      #form-tache button {
+        background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        color: white;
+        border: none;
+        padding: 15px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+
+      #form-tache button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+      }
+
+      .liste-container {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        min-height: 200px;
+        border: 2px dashed #e0e0e0;
+      }
+
+      #liste-taches {
+        list-style: none;
+      }
+
+      #liste-taches li {
+        background: white;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        border-left: 4px solid #ff6b6b;
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      #liste-taches li:hover {
+        transform: translateX(5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        border-left-color: #ee5a24;
+      }
+
+      #liste-taches li::before {
+        content: "✓";
+        color: #ff6b6b;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .key-display {
+        background: #2d3436;
+        color: #00b894;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        font-size: 16px;
+        text-align: center;
+        border: 2px solid #00b894;
+      }
+
+      .empty-message {
+        text-align: center;
+        color: #636e72;
+        font-style: italic;
+        padding: 20px;
+      }
+
+      .stats {
+        display: flex;
+        justify-content: space-between;
+        background: #dfe6e9;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+
+      @media (max-width: 600px) {
+        .form-group {
+          flex-direction: column;
+        }
+
+        .container {
+          margin: 20px;
+        }
+      }
+
+      /* Animation pour les nouvelles tâches */
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .new-task {
+        animation: slideIn 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>📝 Ma Todo-List</h1>
+        <p>Gérez vos tâches !</p>
+      </div>
+
+      <div class="content">
+        <form id="form-tache">
+          <div class="form-group">
+            <input
+              type="text"
+              id="tache"
+              placeholder="✏️ Entrez une nouvelle tâche..."
+              autocomplete="off"
+            />
+            <button type="submit">Ajouter +</button>
+          </div>
+        </form>
+
+        <div class="liste-container">
+          <ul id="liste-taches">
+            <div class="empty-message">
+              Aucune tâche pour le moment. Ajoutez-en une !
+            </div>
+          </ul>
+        </div>
+
+        <div class="key-display" id="touche-appuyee">
+          ⌨️ Touche pressée : En attente...
+        </div>
+
+        <div class="stats">
+          <span id="total-taches">Total: 0 tâche(s)</span>
+          <span id="taches-terminees">Terminées: 0</span>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
