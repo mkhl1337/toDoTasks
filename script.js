@@ -37,6 +37,8 @@ function ajouterTache(texte) {
   const nvLi = document.createElement('li');
   nvLi.textContent=texte;
   nvLi.classList.add('new-task');
+
+  setTimeout(() => {nvLi.classList.remove('new-task')},600)
   const taskList=document.getElementById('liste-taches');
   taskList.appendChild(nvLi);
   mettreAJourStats();
